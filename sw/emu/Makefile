@@ -15,7 +15,7 @@
 #CXX = clang++
 
 IMGUI_DIR = imgui
-PORTAUDIO_DIR = portaudio
+PORTAUDIO_DIR = $(realpath ../../modules/portaudio)
 
 BASEOBJDIR = obj
 BASETARGETDIR = bin
@@ -41,6 +41,7 @@ LINUX_GL_LIBS = -lGL
 
 CXXFLAGS = -I$(IMGUI_DIR) -I$(IMGUI_DIR)/backends -I$(IMGUI_DIR)/gl3w -I$(IMGUI_DIR)/glfw/include -I$(PORTAUDIO_DIR)/include
 CXXFLAGS += -Wall -Wformat
+# CXXFLAGS += -std=c++11
 LIBS = 
 
 ##---------------------------------------------------------------------
@@ -102,13 +103,15 @@ ifeq ($(UNAME_S), Darwin) #APPLE
 	# GLFW:
 	LIBS += -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo
 	# Static:
-	LIBS += -L$(IMGUI_DIR)/glfw/lib-macos_x64
+# 	LIBS += -L$(IMGUI_DIR)/glfw/lib-macos_x64
+	LIBS += -L$(IMGUI_DIR)
 	LIBS += -lglfw3
+# 	LIBS += -L/opt/homebrew/Cellar/glfw/3.3.8/lib
 	# Dynamic:
 	#LIBS += -lglfw
 
 	# PortAudio:
-	LIBS += -L$(PORTAUDIO_DIR)/lib/macos_x64
+	LIBS += -L$(PORTAUDIO_DIR)/lib/.libs/
 	LIBS += -lportaudio
 	LIBS += -framework CoreAudio -framework AudioToolbox -framework AudioUnit -framework CoreServices -framework Carbon 
 endif
